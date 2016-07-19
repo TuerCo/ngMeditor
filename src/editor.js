@@ -196,7 +196,7 @@ angular.module('ngMeditor')
                 if (scope.ngModel) {
                     html[0].innerHTML = scope.ngModel;
                 }
-                
+
                 $rootScope.$on('ngMeditorModelChanged', function(event, value){
                     html[0].innerHTML = value;
                 });
@@ -218,11 +218,12 @@ angular.module('ngMeditor')
                             cmd.actived = false;
                         });
                     }
-                    
-                    scope.ngModel = html[0].innerHTML;
-                    scope.isDirty = true;
+                    $timeout(function(){
+                        scope.ngModel = html[0].innerHTML;
+                        scope.isDirty = true;
+                    }, 150);
                 }
-                
+
                 function placeCaretAtEnd(el) {
                    el.focus();
                    if (window.getSelection){
@@ -238,7 +239,7 @@ angular.module('ngMeditor')
                                 sel.removeAllRanges();
                                 sel.addRange(range);
                            }
-                           
+
                        } else if (typeof document.body.createTextRange != "undefined") {
                            var textRange = document.body.createTextRange();
                            textRange.moveToElementText(el);
@@ -292,11 +293,11 @@ angular.module('ngMeditor')
 
                 function findParentTag(tagName) {
                     tagName = tagName.toLowerCase();
-                    
+
                     if(selection === null || typeof selection === 'undefined'){
                         return null;
                     }
-                    
+
                     var p = selection.anchorNode.parentNode;
                     while (p && p.id !== scope.editId && p.tagName) {
                         if (p.tagName.toLowerCase() === tagName) {
@@ -461,7 +462,7 @@ angular.module('ngMeditor')
                             });
                             e.preventDefault();
                         }
-                            
+
                         //}
                     }
                 });
